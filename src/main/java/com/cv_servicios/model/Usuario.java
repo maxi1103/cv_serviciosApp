@@ -4,27 +4,26 @@
  */
 package com.cv_servicios.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Table;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-
-/*
+/**
  *
  * @author maxi
  */
-
-@Table(name="usuarios")
 @Entity
-public class Usuario {
-    
+@Table(name="usuarios")
+public class Usuario implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name="id_user")
-    private int idUser;
+    private int id;
     
     @Column(name="user")
     private String user;
@@ -46,6 +45,10 @@ public class Usuario {
         this.password = password;
         this.correo = correo;
         this.telefono = telefono;
+    }
+    
+    public int getId() {
+        return id;
     }
 
     public String getUser() {
@@ -79,7 +82,33 @@ public class Usuario {
     public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
-    
-    
 
+    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (int) id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Usuario)) {
+            return false;
+        }
+        Usuario other = (Usuario) object;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.cv_servicios.model.Usuario[ id="+ id + ", user=" + user+", coreeo="+correo+", telefono="+telefono+"]";
+    }
+    
+    
+    
 }

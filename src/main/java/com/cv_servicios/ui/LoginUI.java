@@ -4,24 +4,30 @@
  */
 package com.cv_servicios.ui;
 
+import com.cv_servicios.controller.UsuarioController;
 import java.awt.Color;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import com.cv_servicios.model.Usuario;
+import javax.swing.JOptionPane;
+
 
 /**
  *
  * @author maxi
  */
 public class LoginUI extends javax.swing.JFrame {
+    
+    UsuarioController usuarioController = new UsuarioController();
     int xMouse,yMouse;
     /**
      * Creates new form LoginUI
      */
     public LoginUI() {
         initComponents();
-        
+        jPanel1.requestFocusInWindow();
         //pintar(jlabelWelc,"/images/fondo.png");
         //pintar(jLabel2,"/images/logo.png");
     }
@@ -124,6 +130,7 @@ public class LoginUI extends javax.swing.JFrame {
         jtxtUser.setForeground(new java.awt.Color(204, 204, 204));
         jtxtUser.setText("Usuario");
         jtxtUser.setBorder(null);
+        jtxtUser.setFocusCycleRoot(true);
         jtxtUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jtxtUserMousePressed(evt);
@@ -132,6 +139,11 @@ public class LoginUI extends javax.swing.JFrame {
         jtxtUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtUserActionPerformed(evt);
+            }
+        });
+        jtxtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtxtUserKeyPressed(evt);
             }
         });
         jpLogin.add(jtxtUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 470, -1));
@@ -149,6 +161,11 @@ public class LoginUI extends javax.swing.JFrame {
                 jtxtPassMousePressed(evt);
             }
         });
+        jtxtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtxtPassKeyPressed(evt);
+            }
+        });
         jpLogin.add(jtxtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 470, -1));
 
         jSeparator3.setForeground(new java.awt.Color(60, 78, 120));
@@ -162,6 +179,9 @@ public class LoginUI extends javax.swing.JFrame {
         jlEntrar.setText("Entrar");
         jlEntrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jlEntrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlEntrarMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jlEntrarMouseEntered(evt);
             }
@@ -237,7 +257,7 @@ public class LoginUI extends javax.swing.JFrame {
             jpHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpHeaderLayout.createSequentialGroup()
                 .addGap(0, 863, Short.MAX_VALUE)
-                .addComponent(jpExit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jpExit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jpHeaderLayout.setVerticalGroup(
             jpHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,6 +338,30 @@ public class LoginUI extends javax.swing.JFrame {
             jtxtUser.setForeground(Color.gray);
         }
     }//GEN-LAST:event_jtxtPassMousePressed
+
+    private void jlEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlEntrarMouseClicked
+        String user= jtxtUser.getText();
+        String pass= String.valueOf(jtxtPass.getPassword());
+        
+        Usuario usuario= new Usuario(user,pass,null,0l);
+        Boolean result=usuarioController.login(usuario);
+        if(!result)
+            JOptionPane.showMessageDialog(this, "Credenciales incorrectas \n Si el problema persiste contacte al administrador", "Eror al Iniciar Sesion", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jlEntrarMouseClicked
+
+    private void jtxtUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtUserKeyPressed
+        if(jtxtUser.getForeground() == Color.gray){
+            jtxtUser.setForeground(Color.black);
+            jtxtUser.setText("");
+        }
+    }//GEN-LAST:event_jtxtUserKeyPressed
+
+    private void jtxtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtPassKeyPressed
+        if(jtxtPass.getForeground() == Color.gray){
+            jtxtPass.setForeground(Color.black);
+            jtxtPass.setText("");
+        }
+    }//GEN-LAST:event_jtxtPassKeyPressed
 
 
     private void pintar(JLabel label, String ruta){
